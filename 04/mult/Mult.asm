@@ -9,4 +9,28 @@
 // This program only needs to handle arguments that satisfy
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
-// Put your code here.
+    @R0
+    @R1 // fator da multilicação
+    D = M
+    @R2
+    M = 0
+    @I
+    M = D // Pega o fator da multiplicação para saber quantas vezes vai repetir a soma
+
+(LOOPSUM)
+    @I
+    D = M
+    @END // Se for igual a zero, vai para o END
+    D;JEQ
+    @R0
+    D = M
+    @R2
+    M = M+D // Soma R0 com R2
+    @I
+    M = M-1
+    @LOOPSUM
+    0;JMP
+
+(END)
+    @END
+    0;JMP
