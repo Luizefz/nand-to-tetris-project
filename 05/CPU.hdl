@@ -40,4 +40,41 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+    Not(in=instruction[15], out=instructionTypeA);
+    And(a=instruction[14], b=instruction[13], out=doisEmUm);
+    And(a=instruction[15], b=doisEmUm, out=instructionTypeC);
+    And(a=instructionTypeC, b=instruction[12], out=flagAouM);
+    And(a=instructionTypeC, b=instruction[11], out=flagZx);
+    And(a=instructionTypeC, b=instruction[10], out=flagNx);
+    And(a=instructionTypeC, b=instruction[9], out=flagZy);
+    And(a=instructionTypeC, b=instruction[8], out=flagNy);
+    And(a=instructionTypeC, b=instruction[7], out=flagF);
+    And(a=instructionTypeC, b=instruction[6], out=flagNo);
+    And(a=instructionTypeC, b=instruction[5], out=loadA);
+    And(a=instructionTypeC, b=instruction[4], out=loadD);
+    And(a=instructionTypeC, b=instruction[3], out=writeM);
+    And(a=instructionTypeC, b=instruction[2], out=flagJMPWhenNegative);
+    And(a=instructionTypeC, b=instruction[1], out=flagJMPWhenZero);
+    And(a=instructionTypeC, b=instruction[0], out=flagJMPWhenPositive);
+
+    Mux16(a=ALUOut, b=instruction, sel=instructionTypeA, out=ALUOutMuxinstruction);
+    
+    //Register A
+    Register(in=ALUOutMuxinstruction, load=loadA, out=ARegister, out[0..14]=addressM);
+    //Register D
+    Register(in=ALUOut, load=loadD, out=DRegister);
+
+    Mux16(a=ARegister, b=inM, sel=flagAouM, out=AMuxinM);
+
+    ALU(x=DRegister, y=AMuxinM, zx=flagZx, nx=flagNx, zy=flagZy, ny=flagNy, f=flagF, no=flagNo, zr=ALUZero, ng=ALUNegativo, out=outM, out=ALUOut);
+    
+    Or(a=ALUZero, b=ALUNegativo, out=ALUZeroOrNegativo);
+    Not(in=ALUZeroOrNegativo, out=ALUPositivo);
+    And(a=ALUPositivo, b=flagJMPWhenPositive, out=JGT);
+    And(a=ALUNegativo, b=flagJMPWhenNegative, out=JLT);
+    And(a=ALUZero, b=flagJMPWhenZero, out=JEQ);
+    Or(a=JLT, b=JEQ, out=JLE);
+    Or(a=JLE, b=JGT, out=JMP);
+
+    PC(in=ARegister, load=JMP, inc=true, reset=reset, out[0..14]=pc);
 }
