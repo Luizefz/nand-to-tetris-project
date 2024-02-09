@@ -39,9 +39,9 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
         PARTS:
-        Nand(a=instruction[15], b=instruction[5], out=t1);
-        Nand(a=t1, b=instruction[15], out=instructionTypeA);
-        And(a=instruction[15], b=instruction[13], out=doisEmUm); 
+        // Nand(a=instruction[15], b=instruction[5], out=t1);
+        Not(in=instruction[15], out=instructionTypeA);
+        And(a=instruction[14], b=instruction[13], out=doisEmUm); 
         And(a=instruction[15], b=doisEmUm, out=instructionTypeC);
         And(a=instructionTypeC, b=instruction[12], out=flagAouM);
         And(a=instructionTypeC, b=instruction[11], out=flagZx);
@@ -58,10 +58,12 @@ CHIP CPU {
         And(a=instructionTypeC, b=instruction[0], out=flagJMPWhenPositive);
 
         // Mux for ALU input
-        Mux16(a=instruction, b=ALUOut, sel=instructionTypeA, out=ALUOutMuxinstruction);
+        Mux16(a=ALUOut, b=instruction, sel=instructionTypeA, out=ALUOutMuxinstruction);
 
         // Register A
-        ARegister(in=ALUOutMuxinstruction, load=loadA, out=registerA, out[0..14]=addressM);
+        //Tenhp que fazer a verificaçãoPois temos dois Tipos de Load A. Se o typo da instrução for A ou se o dest da instrução indicar o A no bit 5
+        Or(a=instructionTypeA, b=loadA, out=TrueLoadA); 
+        ARegister(in=ALUOutMuxinstruction, load=TrueLoadA, out=registerA, out[0..14]=addressM);
         // Register D
         DRegister(in=ALUOut, load=loadD, out=registerD);
 
