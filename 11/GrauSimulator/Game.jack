@@ -1,0 +1,131 @@
+class Game {
+    field int delay;
+    field Moto moto;
+    
+    field char key;      
+    field char last_key;
+    field boolean first_jump;
+    field boolean exit;
+    field boolean reset;
+    field boolean quit;
+
+    constructor Game new(int d) {
+        let delay = d;
+
+        let moto = Moto.new(8);                                         
+        return this;
+    }
+
+    method void dispose() {
+        do moto.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method boolean run() {
+        // Inicializar todas las variables
+        let key = 0;
+        let last_key = 0;
+        let first_jump = true;
+        let exit = false;
+        let quit = false; 
+        let reset = false;
+        // Mostrar los mensajes de incio  - Titulo - Instrucciones
+        do Output.moveCursor(3, 30); 
+        do Output.printString("Motinha");
+        do Output.moveCursor(5, 30);
+        do Output.printString("Espacio para iniciar el juego");
+
+        // Entrar al ciclo principal
+        while (~exit) {
+            // Manejar la lógica del juego
+            do handle_input();
+            do refresh();
+            // Manejar el delay del juego
+            do Sys.wait(delay);
+        }  
+        while ((~reset)) {
+            let key = Keyboard.keyPressed();
+            if (key = 81) { // Q to quit
+                return false;
+            }
+            if (key = 82) { // R to reset
+                let reset = true;
+            }
+        }
+        do reset();
+        return true;
+    }
+   
+    // Método para manejar el téclado del juego
+    method void handle_input() {
+        let key = Keyboard.keyPressed();
+        // Verificar si la tecla "Q" fue presionada
+        if (key = 81){
+            let exit = true;
+            let quit = true;
+        }
+
+        // Verificar si la tecla presionada fue "Space"
+        if (key = 130) { 
+            do moto.direita();
+        }
+
+        if (key = 132) { 
+            do moto.esquerda();
+        }
+
+        let last_key = key;
+        return;
+    }
+
+    // Método para actualizar cada frame del juego
+    method void refresh() {
+        // Actualizar el estado del jugador
+        do moto.update();  
+        return;
+    }
+/* 
+    // Método principal para correr el juego
+    method boolean run() {
+        // Inicializar todas las variables
+        let key = 0;
+        let last_key = 0;
+        let first_jump = true;
+        let exit = false;
+        let quit = false; 
+        let reset = false; 
+        // Mostrar los mensajes de incio  - Titulo - Instrucciones
+        do Output.moveCursor(3, 30); 
+        do Output.printString("Flappy Bird");
+        do Output.moveCursor(5, 30);
+        do Output.printString("Espacio para iniciar el juego");
+
+        // Entrar al ciclo principal
+        while (~exit) {
+            // Manejar la lógica del juego
+            do handle_input();
+            do refresh();
+            // Manejar el delay del juego
+            do Sys.wait(delay);
+        }  
+        while ((~reset)) {
+            let key = Keyboard.keyPressed();
+            if (key = 81) { // Q to quit
+                return false;
+            }
+            if (key = 82) { // R to reset
+                let reset = true;
+            }
+        } 
+        do reset();
+        return true;
+    }*/
+
+    // Reciclar los objetos que ya están en memoría
+    method void reset() {
+        do Screen.clearScreen();
+        do moto.reset(8);
+        return;
+    }
+}

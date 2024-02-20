@@ -1,0 +1,59 @@
+function Moto.new 0
+push constant 1
+call Memory.alloc 1
+pop pointer 0
+push pointer 0
+push argument 0
+call Moto.reset 2
+pop temp 0
+push pointer 0
+return
+function Moto.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Moto.direita 0
+push argument 0
+pop pointer 0
+push constant 10
+neg
+pop this 0
+push constant 0
+return
+function Moto.esquerda 0
+push argument 0
+pop pointer 0
+push constant 10
+neg
+pop this 0
+push constant 0
+return
+function Moto.render 0
+push argument 0
+pop pointer 0
+push this 0
+call SpriteManager.draw_motorcyle 1
+pop temp 0
+push constant 0
+return
+function Moto.reset 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 16
+call Math.multiply 2
+pop this 0
+push constant 0
+return
+function Moto.update 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Moto.render 1
+pop temp 0
+push constant 0
+return

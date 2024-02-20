@@ -1,0 +1,96 @@
+class Game {
+    field int delay;
+    field Moto moto;
+    field char key;
+    field char last_key;
+    field boolean exit;
+    field boolean reset;
+    field boolean quit;
+
+    constructor Game new(int d) {
+        let delay = d;
+
+        let moto = Moto.new(8, 8);                                         
+        return this;
+    }
+
+    method void dispose() {
+        do moto.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method boolean run() {
+        // Variaveis de controle do jogo
+        let exit = false;
+        let quit = false; 
+        let reset = false;
+        // Mostra instruções do jogo
+        do Output.moveCursor(8, 20); 
+        do Output.printString("Motinha ----> VRUUUMM");
+        do Output.moveCursor(12, 20);
+        do Output.printString("Press '->' para acelerar e '<-' para frear");
+
+        // Loop de execução do jogo
+        while (~exit) {
+            //Pega o input do teclado
+            do handle_input();
+            do refresh();
+            //Delay de execução
+            do Sys.wait(delay);
+        }
+
+        do reset();
+        return true;
+    }
+   
+    // Pegar o input do usuario
+    method void handle_input() {
+        let key = Keyboard.keyPressed();
+        // Verifica se a tecla == 'Q'
+        if (key = 81){
+            let exit = true;
+        }
+
+        // Verifica se a tecla == 'Arrow Left'
+        if (key = 130) { 
+            do moto.goLeft();
+        }
+
+        // Verifica se a tecla == 'Arrow Down'
+        if (key = 131) { 
+            do moto.goDown();
+        }
+        
+        // Verifica se a tecla == 'Arrow Right'
+        if (key = 132) { 
+            do moto.goRight();
+        }
+        
+        // Verifica se a tecla == 'Arrow Up'
+        if (key = 133) { 
+            do moto.goUp();
+        }
+
+        //Verifica se a tecla == 'space'
+        if (key = 32) {
+            do moto.goWheelie();
+        }
+
+        let last_key = key;
+        return;
+    }
+
+    // Atualizar frames de execução do jogo
+    method void refresh() {
+        // Atualiza a posição da moto
+        do moto.update();  
+        return;
+    }
+
+    method void reset() {
+        do Screen.clearScreen();
+        do moto.reset(8, 128);
+        return;
+    }
+}

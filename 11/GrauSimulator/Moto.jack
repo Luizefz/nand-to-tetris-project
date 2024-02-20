@@ -1,0 +1,45 @@
+class Moto {
+    field int xPos;
+
+    constructor Moto new(int x) {
+      do reset(x);
+      return this;
+   }
+
+    method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+   method void direita() {
+        let xPos = -10;
+
+      return;
+   }
+    method void esquerda() {
+        let xPos = -10;
+        return;
+    }
+
+    method void render() {
+        do SpriteManager.draw_motorcyle(xPos);
+        return;
+
+    }
+    method void reset(int x) {
+      let xPos = (x * 16);
+      //let yPos = y;
+      //let yVel = 0;
+      //let position = (x + (32 * yPos));
+      //let skin = 0;
+      //let tick = 0;
+      //let gravity = false;
+      //let animation_direction_up = true;
+      return;
+   }
+
+   method void update() {
+      //do tick();
+      do render();
+      return;
+   }
+}

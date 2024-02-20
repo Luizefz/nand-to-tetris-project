@@ -1,0 +1,84 @@
+class Moto {
+    field int xPos;
+    field int yPos;
+    field boolean isGoingRigth;
+    field boolean isWheelie;
+    field int motoWidth;
+    field int motoHeight;
+
+    constructor Moto new(int x, int y) {
+        do reset(x, y);
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void goUp() {
+        let yPos = yPos + 10;
+        // let isGoingRigth = true;
+        return;
+    }
+    
+    method void goDown() {
+        let yPos = yPos - 10;
+        // let isGoingRigth = true;
+        return;
+    }
+
+    method void goRight() {
+        let xPos = xPos + 1;
+        let isGoingRigth = true;
+        return;
+    }
+
+    method void goLeft() {
+        let xPos = xPos - 1;
+        let isGoingRigth = false;
+        return;
+    }
+    method void goWheelie(){
+        let isWheelie = ~isWheelie;
+        return;
+    }
+
+    //Desenha a moto na tela de acordo com a direção
+    method void render() {
+        if (isGoingRigth) {
+            if (isWheelie) {
+                do SpriteManager.draw_motorcyle_right_wheelie(xPos + (yPos * 32));
+                return;
+            }
+            do SpriteManager.draw_motorcyle_right(xPos + (yPos * 32));
+            return;
+        } 
+        else {
+            if (isWheelie) {
+                do SpriteManager.draw_motorcyle_left_wheelie(xPos + (yPos * 32));
+                return;
+            }
+
+            do SpriteManager.draw_motorcyle_left(xPos + (yPos * 32));
+            return;
+        }
+    }
+
+    method void reset(int x, int y) {
+        let xPos = (x * 16);
+        let yPos = y;
+        let isGoingRigth = true;
+        return;
+    }
+
+    method void update() {
+        if (~isWheelie) {
+            do Screen.setColor(0); // Define a cor do pincel como branco
+            do Screen.drawRectangle(0, 0, 511, 255);
+        }
+        
+        do render();
+        return;
+    }
+}

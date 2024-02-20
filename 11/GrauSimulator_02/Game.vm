@@ -1,0 +1,285 @@
+function Game.new 0
+push constant 7
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push constant 8
+push constant 8
+call Moto.new 2
+pop this 1
+push pointer 0
+return
+function Game.dispose 0
+push argument 0
+pop pointer 0
+push this 1
+call Moto.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Game.run 0
+push argument 0
+pop pointer 0
+push constant 0
+pop this 4
+push constant 0
+pop this 6
+push constant 0
+pop this 5
+push constant 8
+push constant 20
+call Output.moveCursor 2
+pop temp 0
+push constant 21
+call String.new 1
+push constant 77
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 104
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 45
+call String.appendChar 2
+push constant 45
+call String.appendChar 2
+push constant 45
+call String.appendChar 2
+push constant 45
+call String.appendChar 2
+push constant 62
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 86
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+push constant 85
+call String.appendChar 2
+push constant 85
+call String.appendChar 2
+push constant 85
+call String.appendChar 2
+push constant 77
+call String.appendChar 2
+push constant 77
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 12
+push constant 20
+call Output.moveCursor 2
+pop temp 0
+push constant 42
+call String.new 1
+push constant 80
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 39
+call String.appendChar 2
+push constant 45
+call String.appendChar 2
+push constant 62
+call String.appendChar 2
+push constant 39
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 39
+call String.appendChar 2
+push constant 60
+call String.appendChar 2
+push constant 45
+call String.appendChar 2
+push constant 39
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 102
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+label WHILE_EXP0
+push this 4
+not
+not
+if-goto WHILE_END0
+push pointer 0
+call Game.handle_input 1
+pop temp 0
+push pointer 0
+call Game.refresh 1
+pop temp 0
+push this 0
+call Sys.wait 1
+pop temp 0
+goto WHILE_EXP0
+label WHILE_END0
+push pointer 0
+call Game.reset 1
+pop temp 0
+push constant 0
+not
+return
+function Game.handle_input 0
+push argument 0
+pop pointer 0
+call Keyboard.keyPressed 0
+pop this 2
+push this 2
+push constant 81
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop this 4
+label IF_FALSE0
+push this 2
+push constant 130
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 1
+call Moto.goLeft 1
+pop temp 0
+label IF_FALSE1
+push this 2
+push constant 131
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 1
+call Moto.goDown 1
+pop temp 0
+label IF_FALSE2
+push this 2
+push constant 132
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 1
+call Moto.goRight 1
+pop temp 0
+label IF_FALSE3
+push this 2
+push constant 133
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 1
+call Moto.goUp 1
+pop temp 0
+label IF_FALSE4
+push this 2
+push constant 32
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 1
+call Moto.goWheelie 1
+pop temp 0
+label IF_FALSE5
+push this 2
+pop this 3
+push constant 0
+return
+function Game.refresh 0
+push argument 0
+pop pointer 0
+push this 1
+call Moto.update 1
+pop temp 0
+push constant 0
+return
+function Game.reset 0
+push argument 0
+pop pointer 0
+call Screen.clearScreen 0
+pop temp 0
+push this 1
+push constant 8
+push constant 128
+call Moto.reset 3
+pop temp 0
+push constant 0
+return
